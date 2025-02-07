@@ -1,0 +1,31 @@
+# TRANSLATOR by integrating LIBRE API
+
+import requests
+def translate_text(text, target_language, source_language="auto"):
+    url = "https://libretranslate.de/translate"
+
+    payload = {
+        "q": text,
+        "source": source_language,
+        "target": target_language,
+        "format": "text"
+    }
+
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+
+    response = requests.post(url, data=payload, headers=headers)
+
+    if response.status_code == 200:
+        return response.json()["translatedText"]
+    else:
+        raise Exception(f"Error: {response.status_code}, {response.text}")
+    
+
+if __name__ == "__main__":
+    text = "Hello World!"
+    target_language = "es" #spanish 
+
+    translated_text = translate_text(text, target_language)
+    print(f"translated text: {translated_text}")
